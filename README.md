@@ -1,12 +1,12 @@
 # ML-2019-reclamos-consumidor
 
-## Install Python
+# Install Python
 
 - [Windows](https://www.ics.uci.edu/~pattis/common/handouts/pythoneclipsejava/python.html)
 - [Ubuntu](http://ubuntuhandbook.org/index.php/2017/07/install-python-3-6-1-in-ubuntu-16-04-lts/)
 - [MacOs](https://programwithus.com/learn-to-code/install-python3-mac/)
 
-## Start project
+# Start project
 
 Run the following command in your terminal
 
@@ -20,7 +20,7 @@ Or
 python3 index.py
 ```
 
-## Links to read
+# Links to read
 
 - [machinelearningmastery](https://machinelearningmastery.com/implement-backpropagation-algorithm-scratch-python/)
 - [python-course Neural networls](https://www.python-course.eu/neural_networks_backpropagation.php)
