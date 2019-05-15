@@ -24,10 +24,14 @@ fs.createReadStream('./reclamos-ingresados.csv')
                 rubros.push(elem.rubro);
             }
         });
-      const dataset = csvData.map(elem => (
-          {input: [empresas.findIndex(e => e === elem.empresa), rubros.findIndex(e => e === elem.rubro)],
-           output: [elem.estado === 'Pendiente' ? 1 : 0]
-        }))
-       console.log(empresas[56]);
-      // console.log(require('util').inspect(dataset, { maxArrayLength: null }));
+      const dataset = [];
+      csvData.forEach(elem => {
+          if (empresas.findIndex(e => e === elem.empresa) === 56) return; // Empresas no identificadas por consumidor
+          dataset.push({
+            input: [empresas.findIndex(e => e === elem.empresa), rubros.findIndex(e => e === elem.rubro)],
+            output: [elem.estado === 'Pendiente' ? 1 : 0]
+         });
+      })
+       console.log(require('util').inspect(dataset, { maxArrayLength: null }));
+       console.log(dataset.length);
     });
