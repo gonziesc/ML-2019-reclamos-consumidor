@@ -1,6 +1,14 @@
 const fs = require('fs'); 
 const parse = require('csv-parse');
 
+const shuffle = array => array.sort(() => Math.random() - 0.5);
+
+const doesNotExistIn = (obj, list) => list.findIndex(elem => 
+    elem.empresa == obj.empresa &&
+    elem.rubro == obj.rubro &&
+    elem.estado == obj.estado &&
+    elem.provincia == obj.provincia) == -1
+
 const csvData=[];
 const empresas=[];
 const rubros=[];
@@ -12,23 +20,22 @@ fs.createReadStream('./reclamos-ingresados.csv')
     .on('data', function(csvrow) {
         const obj =  {
             empresa: csvrow[2],
-            rubro: csvrow[6],
+            rubro: csvrow[7],
             estado: csvrow[11] || 'Pendiente',
             provincia: parseInt(csvrow[14] || -1 )  ,
         };
-        if (nombres_empresas.includes(obj.empresa) ) {
+        if (
+            doesNotExistIn(obj, csvData)        ) {
+            if (!empresas.find(empresa => empresa == obj.empresa)) {
+                empresas.push(obj.empresa);
+            }
+            if (!rubros.find(rubro => rubro == obj.rubro)) {
+                rubros.push(obj.rubro);
+            }
             csvData.push(obj);
         }
     })
     .on('end',function() {
-        csvData.forEach(elem => {
-            if (!empresas.find(empresa => empresa == elem.empresa)) {
-                empresas.push(elem.empresa);
-            }
-            if (!rubros.find(rubro => rubro == elem.rubro)) {
-                rubros.push(elem.rubro);
-            }
-        });
       const completeDataset = [];
       csvData.forEach(elem => {
           if (empresas.findIndex(e => e === elem.empresa) === 56 || // Empresas no identificadas por consumidor
@@ -42,10 +49,13 @@ fs.createReadStream('./reclamos-ingresados.csv')
 
       })
        const dataset = [
-        ...completeDataset.filter(e => e.output[0] == 0).slice(1,500),
-        ...completeDataset.filter(e => e.output[0] == 1).slice(0,500)
+        ...shuffle(completeDataset).filter(e => e.output[0] == 0).slice(1,1000),
+        ...shuffle(completeDataset).filter(e => e.output[0] == 1).slice(0,1001)
        ]
-       console.log(require('util').inspect(dataset, { maxArrayLength: null }));
-       console.log(dataset.length);
+       // const testSet = shuffle(completeDataset).slice(0,200)
+       console.log(require('util').inspect(completeDataset, { maxArrayLength: null }));
+       // console.log(require('util').inspect(testSet, { maxArrayLength: null }));
+
+       console.log(completeDataset.length);
 
     });
