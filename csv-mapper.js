@@ -12,7 +12,7 @@ fs.createReadStream('./reclamos-ingresados.csv')
     .on('data', function(csvrow) {
         const obj =  {
             empresa: csvrow[2],
-            rubro: csvrow[4],
+            rubro: csvrow[6],
             estado: csvrow[11] || 'Pendiente',
             provincia: parseInt(csvrow[14] || -1 )  ,
         };
@@ -42,8 +42,8 @@ fs.createReadStream('./reclamos-ingresados.csv')
 
       })
        const dataset = [
-        ...completeDataset.filter(e => e.output[0] == 0).slice(1,5),
-        ...completeDataset.filter(e => e.output[0] == 1).slice(0,5)
+        ...completeDataset.filter(e => e.output[0] == 0).slice(1,500),
+        ...completeDataset.filter(e => e.output[0] == 1).slice(0,500)
        ]
        console.log(require('util').inspect(dataset, { maxArrayLength: null }));
        console.log(dataset.length);
